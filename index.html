@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>90-Day AI Engineer Logbook</title>
+<meta name="theme-color" content="#0e1a1f">
+<meta name="description" content="90-Day AI Engineer training tracker — syllabus, daily tasks, exams, and progress synced across your devices.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AI Engineer 90">
+<style>
+  :root{
+    --ink:#0e1a1f;
+    --ink-2:#132631;
+    --paper:#eef0e6;
+    --line:#3a5a63;
+    --amber:#e8a23d;
+    --cyan:#5fc3c9;
+    --red:#c9634f;
+    --green:#7fa876;
+    --purple:#9d7fc9;
+    --text-dim:#9db0ad;
+    --font-body: Georgia, 'Iowan Old Style', serif;
+    --font-mono: 'Courier New', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--ink);color:var(--paper);font-family:var(--font-body);}
+  body{min-height:100vh;}
+  ::selection{background:var(--amber);color:var(--ink);}
+  .bg-grid{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(rgba(95,195,201,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(95,195,201,0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .app{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:18px 16px 80px;}
+  header.top{display:flex;flex-direction:column;gap:4px;border-bottom:2px solid var(--line);padding-bottom:14px;margin-bottom:18px;}
+  .stamp-row{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  h1{font-family:var(--font-mono);font-size:19px;letter-spacing:1.5px;text-transform:uppercase;margin:0;color:var(--paper);}
+  .subtitle{font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);letter-spacing:.5px;}
+  .entry-id{font-family:var(--font-mono);font-size:11px;color:var(--amber);border:1px solid var(--amber);padding:3px 8px;border-radius:2px;white-space:nowrap;}
+  .dash{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+  @media (max-width:640px){ .dash{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--ink-2);border:1px solid var(--line);border-radius:3px;padding:10px 12px;}
+  .stat .num{font-family:var(--font-mono);font-size:20px;color:var(--cyan);}
+  .stat .lbl{font-family:var(--font-mono);font-size:9.5px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+  .progress-bar-wrap{background:var(--ink-2);border:1px solid var(--line);border-radius:3px;height:22px;margin-bottom:20px;position:relative;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .4s ease;}
+  .progress-bar-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:var(--paper);text-shadow:0 0 3px rgba(0,0,0,.6);}
+  .tabs{display:flex;gap:2px;margin-bottom:16px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .tab{font-family:var(--font-mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);background:transparent;border:none;border-bottom:2px solid transparent;padding:9px 11px;cursor:pointer;}
+  .tab.active{color:var(--amber);border-bottom-color:var(--amber);}
+  .tab:hover{color:var(--paper);}
+  .resume-banner{display:none;background:var(--ink-2);border:1px dashed var(--amber);border-radius:3px;padding:10px 14px;margin-bottom:16px;font-family:var(--font-mono);font-size:12px;color:var(--paper);align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .resume-banner.show{display:flex;}
+  .resume-banner button{font-family:var(--font-mono);font-size:11px;background:var(--amber);color:var(--ink);border:none;padding:7px 12px;border-radius:2px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;}
+  .phase-card{background:var(--ink-2);border:1px solid var(--line);border-radius:3px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s;}
+  .phase-card:hover{border-color:var(--cyan);}
+  .phase-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .phase-name{font-family:var(--font-mono);font-size:12.5px;color:var(--paper);letter-spacing:.3px;}
+  .phase-range{font-family:var(--font-mono);font-size:9.5px;color:var(--text-dim);}
+  .phase-bar-wrap{height:6px;background:var(--ink);border-radius:3px;margin-top:8px;overflow:hidden;}
+  .phase-bar-fill{height:100%;background:var(--cyan);}
+  .day-row{display:flex;align-items:center;gap:12px;background:var(--ink-2);border:1px solid var(--line);border-radius:3px;padding:10px 12px;margin-bottom:6px;cursor:pointer;}
+  .day-row:hover{border-color:var(--cyan);}
+  .day-row.done{border-left:3px solid var(--green);}
+  .day-row.current{border-left:3px solid var(--amber);}
+  .day-row.exam{border-left:3px solid var(--red);}
+  .day-num{font-family:var(--font-mono);font-size:12px;color:var(--cyan);width:38px;flex-shrink:0;}
+  .day-check{width:16px;height:16px;flex-shrink:0;border:1px solid var(--line);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--green);}
+  .day-title-txt{flex:1;font-size:13px;color:var(--paper);}
+  .day-type{font-family:var(--font-mono);font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;border:1px solid var(--line);padding:2px 6px;border-radius:2px;white-space:nowrap;}
+  .day-type.exam-tag{color:var(--red);border-color:var(--red);}
+  .back-link{font-family:var(--font-mono);font-size:11px;color:var(--cyan);cursor:pointer;letter-spacing:1px;margin-bottom:12px;display:inline-block;}
+  .detail-card{background:var(--ink-2);border:1px solid var(--line);border-radius:4px;padding:18px;}
+  .detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px;}
+  .detail-title{font-family:var(--font-mono);font-size:15.5px;color:var(--paper);letter-spacing:.3px;}
+  .detail-phase{font-family:var(--font-mono);font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+  .practical-box{background:var(--ink);border-left:3px solid var(--cyan);padding:8px 12px;margin-bottom:14px;font-size:13px;color:var(--paper);}
+  .practical-box b{color:var(--cyan);font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:3px;}
+  .task-list{list-style:none;padding:0;margin:0;}
+  .task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(58,90,99,.4);}
+  .task-item:last-child{border-bottom:none;}
+  .task-checkbox{width:18px;height:18px;flex-shrink:0;margin-top:2px;border:1px solid var(--cyan);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:12px;background:transparent;}
+  .task-checkbox.checked{background:var(--green);border-color:var(--green);color:var(--ink);}
+  .task-text{font-size:13.5px;line-height:1.5;color:var(--paper);}
+  .task-text.done{color:var(--text-dim);text-decoration:line-through;}
+  .section-lbl{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin:18px 0 8px;}
+  textarea{width:100%;min-height:80px;background:var(--ink);border:1px solid var(--line);border-radius:3px;color:var(--paper);font-family:var(--font-body);font-size:13px;padding:10px;resize:vertical;}
+  textarea:focus{outline:none;border-color:var(--cyan);}
+  .exam-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:520px){ .exam-grid{grid-template-columns:1fr;} }
+  .exam-part{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:10px 12px;}
+  .exam-part-lbl{font-family:var(--font-mono);font-size:10.5px;color:var(--red);letter-spacing:.5px;margin-bottom:6px;}
+  input[type=number]{width:80px;background:var(--ink);border:1px solid var(--line);color:var(--paper);font-family:var(--font-mono);padding:7px 8px;border-radius:3px;}
+  input[type=number]:focus{outline:none;border-color:var(--cyan);}
+  .exam-avg{font-family:var(--font-mono);font-size:12px;color:var(--amber);margin-top:12px;}
+  .mark-day-btn{font-family:var(--font-mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;background:transparent;border:1px solid var(--green);color:var(--green);padding:9px 14px;border-radius:2px;cursor:pointer;margin-top:16px;}
+  .mark-day-btn.done{background:var(--green);color:var(--ink);}
+  .stop-btn{font-family:var(--font-mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;background:transparent;border:1px solid var(--red);color:var(--red);padding:9px 14px;border-radius:2px;cursor:pointer;margin-top:16px;margin-left:8px;}
+  .nav-btns{display:flex;justify-content:space-between;margin-top:16px;}
+  .nav-btns button{font-family:var(--font-mono);font-size:11px;background:transparent;border:1px solid var(--line);color:var(--paper);padding:8px 12px;border-radius:2px;cursor:pointer;}
+  .nav-btns button:hover{border-color:var(--cyan);}
+  footer.foot{text-align:center;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-top:40px;letter-spacing:1px;}
+  .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;}
+  .sync-dot.saving{background:var(--amber);}
+  .sync-dot.local{background:var(--text-dim);}
+  .sync-dot.error{background:var(--red);}
+  .area-row{display:flex;align-items:center;gap:12px;background:var(--ink-2);border:1px solid var(--line);border-radius:3px;padding:10px 12px;margin-bottom:8px;}
+  .area-name{font-family:var(--font-mono);font-size:12px;color:var(--paper);width:130px;flex-shrink:0;}
+  .area-bar-wrap{flex:1;height:8px;background:var(--ink);border-radius:4px;overflow:hidden;}
+  .area-bar-fill{height:100%;background:var(--purple);}
+  .area-pct{font-family:var(--font-mono);font-size:11px;color:var(--purple);width:44px;text-align:right;flex-shrink:0;}
+  .proj-card{background:var(--ink-2);border:1px solid var(--line);border-radius:3px;padding:12px 14px;margin-bottom:10px;}
+  .proj-title{font-family:var(--font-mono);font-size:12.5px;color:var(--amber);letter-spacing:.5px;}
+  .proj-days{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-top:2px;}
+  .proj-tech{font-size:12.5px;color:var(--paper);margin-top:6px;}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="app" id="app"></div>
+
+<script>
+/* ============== EXACT SYLLABUS DATA ============== */
+const PHASES = [
+  { id:1, name:"Python + AI Foundations", start:1, end:15 },
+  { id:2, name:"Machine Learning", start:16, end:35 },
+  { id:3, name:"Deep Learning", start:36, end:50 },
+  { id:4, name:"Generative AI + LLM Engineering", start:51, end:70 },
+  { id:5, name:"AI Deployment + MLOps", start:71, end:80 },
+  { id:6, name:"Portfolio + Job Preparation", start:81, end:90 },
+];
+
+const AREAS = ["Python","Mathematics","ML","Deep Learning","GenAI","RAG","Deployment","Interview"];
+
+// day: [topic, practical/notes, area, isExam]
+const RAW_DAYS = {
+  1:["AI/ML/DL/GenAI overview","Set up your AI environment (Python, venv, Jupyter, VS Code)","Python"],
+  2:["Python fundamentals revision","Solve 20 coding problems","Python"],
+  3:["Functions, modules, exceptions","Coding practice","Python"],
+  4:["OOP in Python","Build a small class-based app","Python"],
+  5:["NumPy","Array exercises","Python"],
+  6:["Pandas","Data-analysis exercises","Python"],
+  7:["Matplotlib / Seaborn","Data visualization practice","Python"],
+  8:["Statistics","Mean, median, variance, probability","Mathematics"],
+  9:["Linear algebra","Vectors & matrices","Mathematics"],
+  10:["Git / GitHub","Create your AI repository","Python"],
+  11:["SQL","Queries + joins","Python"],
+  12:["Data preprocessing","Cleaning a dataset","Python"],
+  13:["EDA","Analyze a real dataset","Python"],
+  14:["Mini project","Exploratory Data Analysis project","Python"],
+  15:["EXAM 1 — Python + Foundations","Theory + coding","Python", true],
+
+  16:["ML fundamentals","Supervised vs unsupervised, workflow overview","ML"],
+  17:["Linear Regression","Implement from scratch + with scikit-learn","ML"],
+  18:["Logistic Regression","Binary classification exercise","ML"],
+  19:["KNN","K-Nearest Neighbors implementation","ML"],
+  20:["Decision Trees","Build & visualize a decision tree","ML"],
+  21:["Random Forest","Ensemble of trees exercise","ML"],
+  22:["SVM","Support Vector Machines practice","ML"],
+  23:["Naive Bayes","Text classification exercise","ML"],
+  24:["Ensemble learning","Bagging vs boosting","ML"],
+  25:["XGBoost / Gradient Boosting","Gradient boosting practice","ML"],
+  26:["Clustering","K-means & DBSCAN exercise","ML"],
+  27:["PCA","Dimensionality reduction practice","ML"],
+  28:["Feature engineering","Create & transform features","ML"],
+  29:["Model evaluation","Accuracy, precision, recall, F1, ROC-AUC, MAE, MSE, RMSE, R², confusion matrix","ML"],
+  30:["Cross-validation","K-fold CV practice","ML"],
+  31:["Hyperparameter tuning","GridSearchCV / RandomizedSearchCV","ML"],
+  32:["Pipelines","Build a scikit-learn pipeline","ML"],
+  33:["End-to-end ML project","Full pipeline: data → model → evaluation","ML"],
+  34:["ML interview preparation","Review Q&A on core ML concepts","ML"],
+  35:["EXAM 2 — Machine Learning","Theory + coding","ML", true],
+
+  36:["Neural-network fundamentals","Perceptron, activation functions, forward pass","Deep Learning"],
+  37:["PyTorch fundamentals","Install & explore PyTorch basics","Deep Learning"],
+  38:["Tensors","Tensor operations practice","Deep Learning"],
+  39:["Neural network creation","Build your first NN in PyTorch","Deep Learning"],
+  40:["Forward / backpropagation","Implement & explain backprop","Deep Learning"],
+  41:["Optimizers","SGD, Adam, RMSProp comparison","Deep Learning"],
+  42:["Loss functions","Cross-entropy, MSE, and when to use each","Deep Learning"],
+  43:["Training loops","Write a full PyTorch training loop","Deep Learning"],
+  44:["CNN","Convolutional Neural Networks fundamentals","Deep Learning"],
+  45:["Image classification","Build a CNN image classifier","Deep Learning"],
+  46:["Transfer learning","Fine-tune a pretrained model","Deep Learning"],
+  47:["RNN","Recurrent Neural Networks fundamentals","Deep Learning"],
+  48:["LSTM","Long Short-Term Memory networks","Deep Learning"],
+  49:["Deep-learning project","End-to-end DL project","Deep Learning"],
+  50:["EXAM 3 — Deep Learning","Theory + coding","Deep Learning", true],
+
+  51:["Generative AI fundamentals","What is GenAI, how it differs from traditional ML","GenAI"],
+  52:["LLM architecture","How large language models are structured","GenAI"],
+  53:["Transformers","Transformer architecture deep-dive","GenAI"],
+  54:["Attention mechanism","Self-attention, multi-head attention","GenAI"],
+  55:["Tokens & embeddings","Tokenization + embedding vectors","GenAI"],
+  56:["Prompt engineering","Zero-shot, few-shot, chain-of-thought prompting","GenAI"],
+  57:["OpenAI API","Call the API, structured outputs, function calling","GenAI"],
+  58:["Hugging Face","Explore Hugging Face models & pipelines","GenAI"],
+  59:["Vector databases","FAISS / Chroma fundamentals","RAG"],
+  60:["RAG fundamentals","Docs → Loader → Chunking → Embeddings → Vector DB → Retriever → LLM → Answer","RAG"],
+  61:["Build basic RAG","Build a minimal RAG pipeline","RAG"],
+  62:["Advanced RAG","Hybrid search, re-ranking, retrieval tuning","RAG"],
+  63:["LangChain","Build a chain with LangChain","RAG"],
+  64:["LlamaIndex","Build an index with LlamaIndex","RAG"],
+  65:["Tool / function calling","Give an LLM tools to call","GenAI"],
+  66:["AI agents","Agent fundamentals & architectures","GenAI"],
+  67:["Agent workflows","Plan → act → observe loops","GenAI"],
+  68:["RAG project","Build a complete RAG application","RAG"],
+  69:["GenAI interview preparation","Review Q&A on LLM/RAG/agent concepts","GenAI"],
+  70:["EXAM 4 — GenAI + RAG","Theory + coding","GenAI", true],
+
+  71:["FastAPI","FastAPI fundamentals","Deployment"],
+  72:["Build ML API","Wrap a model in a FastAPI endpoint","Deployment"],
+  73:["Deploy AI model","Serve a model for real requests","Deployment"],
+  74:["Docker","Docker fundamentals","Deployment"],
+  75:["Dockerize AI application","Containerize your FastAPI app","Deployment"],
+  76:["GitHub Actions","Basic CI/CD pipeline","Deployment"],
+  77:["Cloud fundamentals","AWS / Azure / GCP basics","Deployment"],
+  78:["AI application architecture","Design a production AI app architecture","Deployment"],
+  79:["MLOps fundamentals","Monitoring, logging, environment variables","Deployment"],
+  80:["EXAM 5 — Deployment + MLOps","Theory + coding","Deployment", true],
+
+  81:["Project 1: Customer Churn Prediction — build & train","Python, Pandas, NumPy, scikit-learn","ML"],
+  82:["Project 1: Deploy churn model","Wrap with FastAPI, containerize with Docker","Deployment"],
+  83:["Project 2: Image Classification System — build CNN","Python, PyTorch, CNN","Deep Learning"],
+  84:["Project 2: Transfer learning + deploy","Fine-tune, serve with FastAPI, Dockerize","Deep Learning"],
+  85:["Project 3: PDF AI Chatbot — extraction & chunking","PDF upload → text extraction → chunking","RAG"],
+  86:["Project 3: Embeddings + vector DB + RAG pipeline","Embeddings → Vector DB → RAG → LLM → Answer","RAG"],
+  87:["Project 3: Polish & deploy PDF chatbot","Finish end-to-end PDF Q&A app","RAG"],
+  88:["Project 4: AI Research Assistant — agent architecture","User → Agent → Planner → Search Tool → Retrieval → LLM → Answer","GenAI"],
+  89:["GitHub portfolio + resume polish","Clean up repos, write READMEs, update resume & LinkedIn","Interview"],
+  90:["Final mock interview + full review","MCQ + short answer + coding + behavioral across all areas","Interview", true],
+};
+
+function dailyTaskTemplate(topic, practical){
+  return [
+    `Theory (1 hr): Study ${topic} — read docs / notes, no video-hopping`,
+    `Coding (1 hr): ${practical}`,
+    `Project/practical (1 hr): Apply ${topic} to your own mini example or ongoing project`,
+    `Questions (30 min): Write your own answer to 1-2 AI Engineer interview questions on ${topic}, then check yourself`,
+    `Revision (30 min): Summarize today's topic in 3-5 lines in your notes`
+  ];
+}
+
+function buildCurriculum(){
+  const days=[];
+  for (let d=1; d<=90; d++){
+    const raw=RAW_DAYS[d];
+    const phase=PHASES.find(p => d>=p.start && d<=p.end);
+    const [topic, practical, area, isExam] = raw;
+    days.push({
+      day:d, phaseId:phase.id, phaseName:phase.name,
+      topic, practical, area, isExam: !!isExam,
+      tasks: isExam ? null : dailyTaskTemplate(topic, practical)
+    });
+  }
+  return days;
+}
+const CURRICULUM = buildCurriculum();
+
+const PROJECTS = [
+  {name:"Project 1 — Customer Churn Prediction (ML)", days:"81–82", tech:"Python, Pandas, NumPy, scikit-learn, Matplotlib, FastAPI, Docker"},
+  {name:"Project 2 — Image Classification System (Deep Learning)", days:"83–84", tech:"Python, PyTorch, CNN, Transfer Learning, FastAPI, Docker"},
+  {name:"Project 3 — PDF AI Chatbot (GenAI/RAG)", days:"85–87", tech:"PDF → Text Extraction → Chunking → Embeddings → Vector DB → RAG → LLM → Answer"},
+  {name:"Project 4 — AI Research Assistant (Agents) — main portfolio piece", days:"88", tech:"User → Agent → Planner → Search Tool → Document Retrieval → LLM → Final Answer"},
+];
+
+/* ============== STATE ============== */
+let STATE = { days:{}, lastPosition:null, updatedAt:0 };
+let view = { screen:"dashboard" };
+let saveTimer=null, syncStatus="local"; // local | saving | synced | error | offline | nogh
+
+const LOCAL_KEY = 'ai90-progress';
+const CFG_KEY = 'ai90-gh-config'; // { owner, repo, path, token }
+
+function getConfig(){
+  try{ return JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); }catch(e){ return null; }
+}
+function setConfig(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
+function ghReady(){ const c=getConfig(); return !!(c && c.owner && c.repo && c.token); }
+
+function ensureDay(d){
+  if (!STATE.days[d]){
+    const c=CURRICULUM[d-1];
+    STATE.days[d] = {
+      tasksDone: c.isExam ? null : c.tasks.map(()=>false),
+      examScores: c.isExam ? { mcq:null, short:null, coding:null, interview:null } : null,
+      notes:"", completed:false
+    };
+  }
+  return STATE.days[d];
+}
+
+function readLocal(){
+  try{
+    const raw = localStorage.getItem(LOCAL_KEY);
+    if (raw) return JSON.parse(raw);
+  }catch(e){}
+  return null;
+}
+function writeLocal(state){
+  try{ localStorage.setItem(LOCAL_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+// --- GitHub Contents API sync ---
+let ghSha = null; // current file sha, for updates
+async function ghFetch(){
+  const cfg = getConfig();
+  if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) return null;
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path||'progress.json'}`;
+  const res = await fetch(url, { headers: { 'Authorization': `Bearer ${cfg.token}`, 'Accept':'application/vnd.github+json' } });
+  if (res.status === 404) { ghSha = null; return null; }
+  if (!res.ok) throw new Error('GitHub fetch failed: '+res.status);
+  const data = await res.json();
+  ghSha = data.sha;
+  const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+  return JSON.parse(decoded);
+}
+async function ghPut(state){
+  const cfg = getConfig();
+  if (!cfg || !cfg.owner || !cfg.repo || !cfg.token) return;
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path||'progress.json'}`;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+  const body = { message: `Update progress — day ${currentDay()}`, content, branch: cfg.branch || 'main' };
+  if (ghSha) body.sha = ghSha;
+  const res = await fetch(url, {
+    method:'PUT',
+    headers:{ 'Authorization': `Bearer ${cfg.token}`, 'Accept':'application/vnd.github+json', 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok){
+    const errText = await res.text();
+    throw new Error('GitHub save failed: '+res.status+' '+errText);
+  }
+  const data = await res.json();
+  ghSha = data.content.sha;
+}
+
+async function loadState(){
+  const local = readLocal();
+  if (local) STATE = Object.assign({days:{}, lastPosition:null, updatedAt:0}, local);
+
+  if (!ghReady()){
+    syncStatus = "nogh";
+    render();
+    return;
+  }
+  syncStatus = "saving"; render();
+  try{
+    const remote = await ghFetch();
+    if (remote && (remote.updatedAt||0) > (STATE.updatedAt||0)){
+      STATE = Object.assign({days:{}, lastPosition:null, updatedAt:0}, remote);
+      writeLocal(STATE);
+    } else if (local && local.updatedAt){
+      // local is newer or equal — push it up
+      await ghPut(STATE);
+    } else if (!remote) {
+      await ghPut(STATE);
+    }
+    syncStatus = "synced";
+  }catch(e){
+    console.error(e);
+    syncStatus = navigator.onLine ? "error" : "offline";
+  }
+  render();
+}
+
+async function saveState(){
+  STATE.updatedAt = Date.now();
+  writeLocal(STATE);
+  syncStatus = ghReady() ? "saving" : "local";
+  updateSyncDot();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    if (!ghReady()){ syncStatus="local"; updateSyncDot(); return; }
+    try{ await ghPut(STATE); syncStatus="synced"; }
+    catch(e){ console.error(e); syncStatus = navigator.onLine ? "error" : "offline"; }
+    updateSyncDot();
+  }, 600);
+}
+
+function updateSyncDot(){
+  const dot=document.getElementById('sync-dot'); if(!dot) return;
+  const map = {
+    saving: ["saving", "Syncing to GitHub…"],
+    synced: ["", "Synced to GitHub — up to date on all devices"],
+    error: ["error", "Sync failed — saved locally, will retry"],
+    offline: ["error", "Offline — saved locally, will sync when back online"],
+    local: ["local", "Saved on this device only — add GitHub sync in Settings"],
+    nogh: ["local", "Not connected to GitHub yet — open Settings to enable cross-device sync"]
+  };
+  const [cls, title] = map[syncStatus] || ["",""];
+  dot.className = "sync-dot" + (cls?" "+cls:"");
+  dot.title = title;
+  const lbl = document.getElementById('sync-label');
+  if (lbl){
+    const labelMap = { saving:"SYNCING", synced:"GITHUB-SYNCED", error:"SYNC ERROR", offline:"OFFLINE", local:"LOCAL ONLY", nogh:"SET UP SYNC" };
+    lbl.textContent = labelMap[syncStatus] || "";
+  }
+}
+
+/* ============== HELPERS ============== */
+function stats(){
+  let completed=0, examsTaken=0, scoreSum=0, scoreCount=0;
+  for (let d=1; d<=90; d++){
+    const s=STATE.days[d];
+    if (s && s.completed) completed++;
+    if (s && s.examScores){
+      const parts=[s.examScores.mcq,s.examScores.short,s.examScores.coding,s.examScores.interview].filter(v=>v!==null&&v!==undefined&&v!=="");
+      if (parts.length){ examsTaken++; scoreSum += parts.reduce((a,b)=>a+Number(b),0)/parts.length; scoreCount++; }
+    }
+  }
+  const avgScore = scoreCount ? Math.round(scoreSum/scoreCount) : null;
+  return { completed, examsTaken, avgScore, streak:computeStreak() };
+}
+function computeStreak(){
+  let streak=0;
+  for (let d=90; d>=1; d--){
+    const s=STATE.days[d];
+    if (s && s.completed) streak++;
+    else if (streak>0) break;
+  }
+  return streak;
+}
+function currentDay(){
+  for (let d=1; d<=90; d++){ const s=STATE.days[d]; if (!s || !s.completed) return d; }
+  return 90;
+}
+function areaStats(){
+  const map={};
+  AREAS.forEach(a=>map[a]={total:0,done:0});
+  for (let d=1; d<=90; d++){
+    const c=CURRICULUM[d-1]; const s=STATE.days[d];
+    map[c.area].total++;
+    if (s && s.completed) map[c.area].done++;
+  }
+  return map;
+}
+
+/* ============== SCREENS ============== */
+function renderDashboard(){
+  const st=stats(); const cur=currentDay();
+  let resumeHtml="";
+  if (STATE.lastPosition && STATE.lastPosition.day){
+    resumeHtml=`<div class="resume-banner show">
+      <span>▸ You stopped at <b>Day ${STATE.lastPosition.day}</b>${STATE.lastPosition.taskIndex!=null?`, task ${STATE.lastPosition.taskIndex+1}`:""}. Resume on any device.</span>
+      <button onclick="goToDay(${STATE.lastPosition.day})">Resume</button>
+    </div>`;
+  }
+  let phaseCards = PHASES.map(p=>{
+    let done=0, len=p.end-p.start+1;
+    for (let d=p.start; d<=p.end; d++){ if (STATE.days[d] && STATE.days[d].completed) done++; }
+    const pct=Math.round((done/len)*100);
+    return `<div class="phase-card" onclick="openPhase(${p.id})">
+      <div class="phase-head"><span class="phase-name">P${p.id} · ${p.name}</span><span class="phase-range">Day ${p.start}–${p.end} · ${done}/${len}</span></div>
+      <div class="phase-bar-wrap"><div class="phase-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join("");
+  const cd=CURRICULUM[cur-1];
+  return `
+    <div class="resume-banner-slot">${resumeHtml}</div>
+    <div class="dash">
+      <div class="stat"><div class="num">${st.completed}/90</div><div class="lbl">Days Complete</div></div>
+      <div class="stat"><div class="num">${st.streak}</div><div class="lbl">Day Streak</div></div>
+      <div class="stat"><div class="num">${st.examsTaken}/5</div><div class="lbl">Exams Logged</div></div>
+      <div class="stat"><div class="num">${st.avgScore!==null?st.avgScore+'%':'—'}</div><div class="lbl">Avg Exam Score</div></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" style="width:${(st.completed/90*100)}%"></div>
+      <div class="progress-bar-label">${st.completed} / 90 DAYS · ${Math.round(st.completed/90*100)}%</div>
+    </div>
+    <div class="section-lbl">Today's Focus — Day ${cur}</div>
+    <div class="day-row current ${cd.isExam?'exam':''}" onclick="goToDay(${cur})">
+      <span class="day-num">D${cur}</span><span class="day-check"></span>
+      <span class="day-title-txt">${cd.topic}</span>
+      <span class="day-type ${cd.isExam?'exam-tag':''}">${cd.isExam?'exam':cd.area}</span>
+    </div>
+    <div class="section-lbl">Phases</div>
+    ${phaseCards}
+  `;
+}
+
+function renderPhase(phaseId){
+  const phase=PHASES.find(p=>p.id===phaseId);
+  let rows="";
+  for (let d=phase.start; d<=phase.end; d++){
+    const c=CURRICULUM[d-1]; const s=STATE.days[d]; const done=s&&s.completed;
+    rows+=`<div class="day-row ${done?'done':''} ${c.isExam?'exam':''}" onclick="goToDay(${d})">
+      <span class="day-num">D${d}</span><span class="day-check">${done?'✓':''}</span>
+      <span class="day-title-txt">${c.topic}</span>
+      <span class="day-type ${c.isExam?'exam-tag':''}">${c.isExam?'exam':c.area}</span>
+    </div>`;
+  }
+  return `<span class="back-link" onclick="goDashboard()">← ALL PHASES</span>
+    <div class="section-lbl">Phase ${phase.id} · ${phase.name} (Day ${phase.start}–${phase.end})</div>
+    ${rows}`;
+}
+
+function renderDay(d){
+  const c=CURRICULUM[d-1]; const s=ensureDay(d);
+  const practicalBox = !c.isExam ? `<div class="practical-box"><b>Practical / Focus</b>${c.practical}</div>` : "";
+
+  let body;
+  if (c.isExam){
+    const parts=[
+      {key:'mcq', label:'PART A — MCQ (10 questions)'},
+      {key:'short', label:'PART B — Short Answer (5 questions)'},
+      {key:'coding', label:'PART C — Coding (2 problems)'},
+      {key:'interview', label:'PART D — Interview (3 questions)'}
+    ];
+    const grid = parts.map(p=>`
+      <div class="exam-part">
+        <div class="exam-part-lbl">${p.label}</div>
+        <input type="number" min="0" max="100" placeholder="score %" value="${s.examScores[p.key] ?? ''}" onchange="setExamPart(${d},'${p.key}',this.value)">
+      </div>`).join("");
+    const vals=[s.examScores.mcq,s.examScores.short,s.examScores.coding,s.examScores.interview].filter(v=>v!==null&&v!==undefined&&v!=="");
+    const avg = vals.length ? Math.round(vals.reduce((a,b)=>a+Number(b),0)/vals.length) : null;
+    body = `
+      <div class="practical-box"><b>Invigilator rules</b>Answer first, mark yourself honestly against the answer key or your own review, then log each part's score. Don't peek before attempting.</div>
+      <div class="section-lbl">Exam — ${c.topic}</div>
+      <div class="exam-grid">${grid}</div>
+      <div class="exam-avg">Overall exam score: ${avg!==null?avg+'%':'— log all 4 parts'}</div>
+    `;
+  } else {
+    const tasksHtml = c.tasks.map((t,i)=>`
+      <li class="task-item">
+        <button class="task-checkbox ${s.tasksDone[i]?'checked':''}" onclick="toggleTask(${d},${i})">${s.tasksDone[i]?'✓':''}</button>
+        <span class="task-text ${s.tasksDone[i]?'done':''}">${t}</span>
+      </li>`).join("");
+    body = `${practicalBox}<div class="section-lbl">Today's Schedule</div><ul class="task-list">${tasksHtml}</ul>`;
+  }
+
+  const allDone = c.isExam ? true : s.tasksDone.every(Boolean);
+
+  return `
+    <span class="back-link" onclick="openPhase(${c.phaseId})">← PHASE ${c.phaseId}</span>
+    <div class="detail-card">
+      <div class="detail-head">
+        <div><div class="detail-title">Day ${d} — ${c.topic}</div><div class="detail-phase">Phase ${c.phaseId} · ${c.phaseName}</div></div>
+        <span class="day-type ${c.isExam?'exam-tag':''}">${c.isExam?'exam':c.area}</span>
+      </div>
+      ${body}
+      <div class="section-lbl">Notes</div>
+      <textarea placeholder="Jot notes, gotchas, links..." onchange="setNotes(${d}, this.value)">${s.notes||""}</textarea>
+      <div>
+        <button class="mark-day-btn ${s.completed?'done':''}" onclick="toggleDayComplete(${d})">${s.completed?'✓ Day Complete':allDone?'Mark Day Complete':'Mark Day Complete Anyway'}</button>
+        <button class="stop-btn" onclick="stopHere(${d})">Stop Here / Save Position</button>
+      </div>
+      <div class="nav-btns">
+        <button onclick="goToDay(${d-1})" ${d<=1?'disabled':''}>← Day ${d-1}</button>
+        <button onclick="goToDay(${d+1})" ${d>=90?'disabled':''}>Day ${d+1} →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderAreas(){
+  const map=areaStats();
+  const rows = AREAS.map(a=>{
+    const {total,done}=map[a];
+    const pct = total ? Math.round(done/total*100) : 0;
+    return `<div class="area-row">
+      <span class="area-name">${a}</span>
+      <div class="area-bar-wrap"><div class="area-bar-fill" style="width:${pct}%"></div></div>
+      <span class="area-pct">${done}/${total}</span>
+    </div>`;
+  }).join("");
+  return `<div class="section-lbl">Area Progress</div>${rows}
+    <div class="section-lbl" style="margin-top:24px;">Portfolio Projects</div>
+    ${PROJECTS.map(p=>`<div class="proj-card"><div class="proj-title">${p.name}</div><div class="proj-days">Days ${p.days}</div><div class="proj-tech">${p.tech}</div></div>`).join("")}
+  `;
+}
+
+function renderSettings(){
+  const cfg = getConfig() || {};
+  return `
+    <div class="section-lbl">Cross-Device Sync (GitHub)</div>
+    <div class="practical-box">
+      <b>How this works</b>
+      Your progress is saved on this device immediately, always — even offline. If you fill in your GitHub details below,
+      it also pushes to a private JSON file in a repo of your choice, so opening this same app on another device
+      (logged into nothing — just this repo config) pulls the latest copy automatically.
+    </div>
+    <div class="detail-card">
+      <div class="section-lbl" style="margin-top:0;">GitHub username (owner)</div>
+      <textarea id="cfg-owner" style="min-height:38px;" placeholder="sktelasang990">${cfg.owner||''}</textarea>
+      <div class="section-lbl">Repository name</div>
+      <textarea id="cfg-repo" style="min-height:38px;" placeholder="ai-engineer-90-tracker">${cfg.repo||''}</textarea>
+      <div class="section-lbl">Branch</div>
+      <textarea id="cfg-branch" style="min-height:38px;" placeholder="main">${cfg.branch||'main'}</textarea>
+      <div class="section-lbl">File path</div>
+      <textarea id="cfg-path" style="min-height:38px;" placeholder="progress.json">${cfg.path||'progress.json'}</textarea>
+      <div class="section-lbl">Personal Access Token</div>
+      <textarea id="cfg-token" style="min-height:38px;" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">${cfg.token||''}</textarea>
+      <div style="font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);margin-top:6px;line-height:1.6;">
+        Needs a fine-grained token scoped to just this one repo, Contents: Read & write.
+        You enter this once per device — it's stored only in this browser's local storage, never sent anywhere but GitHub's API.
+      </div>
+      <button class="mark-day-btn" style="margin-right:8px;" onclick="saveGhConfig()">Save & Sync Now</button>
+      ${cfg.token ? `<button class="stop-btn" onclick="clearGhConfig()">Disconnect</button>` : ``}
+    </div>
+  `;
+}
+
+async function saveGhConfig(){
+  const owner = document.getElementById('cfg-owner').value.trim();
+  const repo = document.getElementById('cfg-repo').value.trim();
+  const branch = document.getElementById('cfg-branch').value.trim() || 'main';
+  const path = document.getElementById('cfg-path').value.trim() || 'progress.json';
+  const token = document.getElementById('cfg-token').value.trim();
+  if (!owner || !repo || !token){ alert('Fill in owner, repo, and token at minimum.'); return; }
+  setConfig({ owner, repo, branch, path, token });
+  await loadState();
+  goDashboard();
+}
+function clearGhConfig(){
+  localStorage.removeItem(CFG_KEY);
+  syncStatus = "nogh";
+  openSettings();
+}
+
+/* ============== ACTIONS ============== */
+function goDashboard(){ view={screen:"dashboard"}; render(); }
+function openPhase(id){ view={screen:"phase", phaseId:id}; render(); }
+function goToDay(d){ if(d<1||d>90) return; view={screen:"day", day:d}; render(); }
+function openAreas(){ view={screen:"areas"}; render(); }
+function openSettings(){ view={screen:"settings"}; render(); }
+
+function toggleTask(d,i){
+  const s=ensureDay(d); s.tasksDone[i]=!s.tasksDone[i];
+  STATE.lastPosition={day:d, taskIndex:i}; saveState(); render();
+}
+function setNotes(d,val){ ensureDay(d).notes=val; saveState(); }
+function setExamPart(d,part,val){
+  const s=ensureDay(d);
+  s.examScores[part] = val===""?null:Math.max(0,Math.min(100,Number(val)));
+  saveState(); render();
+}
+function toggleDayComplete(d){
+  const s=ensureDay(d); s.completed=!s.completed;
+  if (s.completed) STATE.lastPosition={day:Math.min(d+1,90), taskIndex:null};
+  saveState(); render();
+}
+function stopHere(d){ STATE.lastPosition={day:d, taskIndex:null}; saveState(); goDashboard(); }
+
+/* ============== MAIN RENDER ============== */
+function render(){
+  const app=document.getElementById('app');
+  let body="";
+  if (view.screen==="dashboard") body=renderDashboard();
+  else if (view.screen==="phase") body=renderPhase(view.phaseId);
+  else if (view.screen==="day") body=renderDay(view.day);
+  else if (view.screen==="areas") body=renderAreas();
+  else if (view.screen==="settings") body=renderSettings();
+
+  app.innerHTML = `
+    <header class="top">
+      <div class="stamp-row">
+        <h1>90-Day AI Engineer Logbook</h1>
+        <span class="entry-id" onclick="openSettings()" style="cursor:pointer;"><span id="sync-dot" class="sync-dot"></span><span id="sync-label">SYNC</span></span>
+      </div>
+      <div class="subtitle">Python → ML → Deep Learning → GenAI/LLM → RAG → Agents → Deployment → Portfolio · 5 Exams</div>
+    </header>
+    <div class="tabs">
+      <button class="tab ${view.screen==='dashboard'?'active':''}" onclick="goDashboard()">Dashboard</button>
+      <button class="tab ${view.screen==='phase'||view.screen==='day'?'active':''}" onclick="openPhase(currentPhaseFor(currentDay()))">Roadmap</button>
+      <button class="tab ${view.screen==='areas'?'active':''}" onclick="openAreas()">Areas & Projects</button>
+      <button class="tab ${view.screen==='settings'?'active':''}" onclick="openSettings()">Settings</button>
+    </div>
+    ${body}
+    <footer class="foot">DAY ${currentDay()} OF 90 · SAVED TO YOUR ACCOUNT · OPEN ON MOBILE OR DESKTOP TO CONTINUE</footer>
+  `;
+  updateSyncDot();
+}
+function currentPhaseFor(d){ return PHASES.find(p=>d>=p.start&&d<=p.end).id; }
+
+loadState();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW registration failed', e));
+  });
+}
+window.addEventListener('online', () => { if (syncStatus==='offline'||syncStatus==='error') saveState(); });
+</script>
+</body>
+</html>
