@@ -10,7 +10,7 @@
       ],
       "examScores": null,
       "notes": "",
-      "completed": true
+      "completed": false
     },
     "2": {
       "tasksDone": [
@@ -29,5 +29,5 @@
     "day": 3,
     "taskIndex": null
   },
-  "updatedAt": 1786119841653
+  "updatedAt": 1786119862537
 }
