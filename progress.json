@@ -2,7 +2,7 @@
   "days": {
     "1": {
       "tasksDone": [
-        true,
+        false,
         true,
         true,
         true,
@@ -11,11 +11,23 @@
       "examScores": null,
       "notes": "",
       "completed": true
+    },
+    "2": {
+      "tasksDone": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "examScores": null,
+      "notes": "",
+      "completed": false
     }
   },
   "lastPosition": {
-    "day": 2,
-    "taskIndex": null
+    "day": 1,
+    "taskIndex": 0
   },
-  "updatedAt": 1786118660839
+  "updatedAt": 1786119220425
 }
