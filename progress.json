@@ -2,7 +2,7 @@
   "days": {
     "1": {
       "tasksDone": [
-        true,
+        false,
         false,
         false,
         false,
@@ -27,7 +27,7 @@
   },
   "lastPosition": {
     "day": 1,
-    "taskIndex": null
+    "taskIndex": 0
   },
-  "updatedAt": 1786119251622
+  "updatedAt": 1786119276414
 }
