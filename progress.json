@@ -2,7 +2,7 @@
   "days": {
     "1": {
       "tasksDone": [
-        false,
+        true,
         false,
         false,
         false,
@@ -17,5 +17,5 @@
     "day": 1,
     "taskIndex": 0
   },
-  "updatedAt": 1786118411481
+  "updatedAt": 1786118420820
 }
