@@ -1,5 +1,21 @@
 {
-  "days": {},
-  "lastPosition": null,
-  "updatedAt": 0
+  "days": {
+    "1": {
+      "tasksDone": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "examScores": null,
+      "notes": "",
+      "completed": false
+    }
+  },
+  "lastPosition": {
+    "day": 1,
+    "taskIndex": 0
+  },
+  "updatedAt": 1786118403001
 }
