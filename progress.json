@@ -10,12 +10,12 @@
       ],
       "examScores": null,
       "notes": "",
-      "completed": false
+      "completed": true
     }
   },
   "lastPosition": {
-    "day": 1,
+    "day": 2,
     "taskIndex": null
   },
-  "updatedAt": 1786118537794
+  "updatedAt": 1786118546799
 }
