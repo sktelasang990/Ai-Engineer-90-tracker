@@ -10,7 +10,7 @@
       ],
       "examScores": null,
       "notes": "",
-      "completed": false
+      "completed": true
     },
     "2": {
       "tasksDone": [
@@ -22,12 +22,24 @@
       ],
       "examScores": null,
       "notes": "",
-      "completed": true
+      "completed": false
+    },
+    "3": {
+      "tasksDone": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "examScores": null,
+      "notes": "",
+      "completed": false
     }
   },
   "lastPosition": {
-    "day": 3,
+    "day": 2,
     "taskIndex": null
   },
-  "updatedAt": 1786119862537
+  "updatedAt": 1786119907445
 }
