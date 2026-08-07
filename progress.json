@@ -3,9 +3,9 @@
     "1": {
       "tasksDone": [
         true,
-        false,
         true,
-        false,
+        true,
+        true,
         false
       ],
       "examScores": null,
@@ -29,5 +29,5 @@
     "day": 1,
     "taskIndex": null
   },
-  "updatedAt": 1786119523385
+  "updatedAt": 1786119534558
 }
