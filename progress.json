@@ -22,12 +22,12 @@
       ],
       "examScores": null,
       "notes": "",
-      "completed": false
+      "completed": true
     }
   },
   "lastPosition": {
-    "day": 2,
-    "taskIndex": 0
+    "day": 3,
+    "taskIndex": null
   },
-  "updatedAt": 1786119366961
+  "updatedAt": 1786119369806
 }
