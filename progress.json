@@ -4,7 +4,7 @@
       "tasksDone": [
         true,
         true,
-        false,
+        true,
         false,
         false
       ],
@@ -29,5 +29,5 @@
     "day": 1,
     "taskIndex": 2
   },
-  "updatedAt": 1786119451582
+  "updatedAt": 1786119452843
 }
