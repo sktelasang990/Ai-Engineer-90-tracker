@@ -5,7 +5,7 @@
         true,
         true,
         true,
-        false,
+        true,
         false
       ],
       "examScores": null,
@@ -29,5 +29,5 @@
     "day": 1,
     "taskIndex": 3
   },
-  "updatedAt": 1786119474582
+  "updatedAt": 1786119487597
 }
