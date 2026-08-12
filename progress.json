@@ -5,7 +5,7 @@
         true,
         true,
         true,
-        false,
+        true,
         false
       ],
       "examScores": null,
@@ -15,7 +15,7 @@
   },
   "lastPosition": {
     "day": 1,
-    "taskIndex": 2
+    "taskIndex": 3
   },
-  "updatedAt": 1786511129068
+  "updatedAt": 1786511135124
 }
