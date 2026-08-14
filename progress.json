@@ -30,16 +30,16 @@
         true,
         true,
         true,
-        false
+        true
       ],
       "examScores": null,
       "notes": "",
-      "completed": false
+      "completed": true
     }
   },
   "lastPosition": {
-    "day": 3,
-    "taskIndex": 3
+    "day": 4,
+    "taskIndex": null
   },
-  "updatedAt": 1786688401324
+  "updatedAt": 1786688402982
 }
