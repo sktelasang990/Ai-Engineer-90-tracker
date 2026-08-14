@@ -4,8 +4,8 @@
       "tasksDone": [
         true,
         true,
-        true,
-        true,
+        false,
+        false,
         false
       ],
       "examScores": null,
@@ -39,7 +39,7 @@
   },
   "lastPosition": {
     "day": 1,
-    "taskIndex": null
+    "taskIndex": 3
   },
-  "updatedAt": 1786689441612
+  "updatedAt": 1786689498696
 }
