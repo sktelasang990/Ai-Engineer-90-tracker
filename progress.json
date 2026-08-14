@@ -4,8 +4,8 @@
       "tasksDone": [
         true,
         true,
-        false,
-        false,
+        true,
+        true,
         false
       ],
       "examScores": null,
@@ -41,5 +41,5 @@
     "day": 1,
     "taskIndex": 3
   },
-  "updatedAt": 1786689498696
+  "updatedAt": 1786689537019
 }
