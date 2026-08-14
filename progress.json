@@ -15,10 +15,10 @@
     "2": {
       "tasksDone": [
         true,
-        false,
-        false,
-        false,
-        false
+        true,
+        true,
+        true,
+        true
       ],
       "examScores": null,
       "notes": "",
@@ -27,7 +27,7 @@
   },
   "lastPosition": {
     "day": 2,
-    "taskIndex": 0
+    "taskIndex": 4
   },
-  "updatedAt": 1786688327484
+  "updatedAt": 1786688329387
 }
